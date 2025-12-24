@@ -40,6 +40,11 @@
         button {
             width: 90%;
             padding: 5px;
+            margin-top: 10px;
+        }
+
+        pre {
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -54,8 +59,19 @@
             </button>
             <button type="button" onclick="GetStateInstance()">
                 GetStateInstance
+            </button><br><br><br><br>
+
+            <input type="text" name="phoneNumberMessage" id="phoneNumberMessage" placeholder="phoneNumber">
+            <input type="text" name="message" id="message" placeholder="message">
+            <button type="button" onclick="SendMessage()">
+                SendMessage
+            </button><br><br><br><br>
+
+            <input type="text" name="phoneNumberFile" id="phoneNumberFile" placeholder="phoneNumber">
+            <input type="text" name="urlFile" id="urlFile" placeholder="urlFile">
+            <button type="button" onclick="SendFileByUrl()">
+                SendFileByUrl
             </button>
-            
 
         </div>
         <div class="answer-container">
@@ -66,13 +82,14 @@
 
     <script>
         const apiUrl = "https://7105.api.greenapi.com";
+        const mediaUrl = "https://7105.media.greenapi.com";
         const idInstance = document.getElementById("idInstance");
         const apiTokenInstance = document.getElementById("apiTokenInstance");
 
         async function GetSettings() {
             const url = `${apiUrl}/waInstance${idInstance.value}/getSettings/${apiTokenInstance.value}`;
             const res = await fetch(url);
-            const data = await res.json()
+            const data = await res.json();
 
             document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
         }
@@ -80,9 +97,40 @@
         async function GetStateInstance() {
             const url = `${apiUrl}/waInstance${idInstance.value}/getStateInstance/${apiTokenInstance.value}`;
             const res = await fetch(url);
-            const data = await res.json()
+            const data = await res.json();
 
             document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function SendMessage() {
+            const phoneNumber = document.getElementById("phoneNumberMessage");
+            const message = document.getElementById("message");
+
+            const res = await fetch(`${apiUrl}/waInstance${idInstance.value}/sendMessage/${apiTokenInstance.value}`, {
+                method: "POST",
+                body: JSON.stringify({ 
+                    chatId: `${phoneNumber.value}@c.us`,
+                    message: `${message.value}`
+                })
+            });
+            const data = await res.json();
+
+            document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function SendFileByUrl() {
+            const phoneNumber = document.getElementById("phoneNumberFile");
+            const urlFile = document.getElementById("urlFile");
+            const res = await fetch(`${mediaUrl}/waInstance${idInstance.value}/sendFileByUrl/${apiTokenInstance.value}`, {
+                method: "POST",
+                body: JSON.stringify({
+                    chatId: `${phoneNumber.value}@c.us`,
+                    urlFile: urlFile.value
+                })
+            });
+            const data = await res.json();
+
+            document.getElementById("answer").textContent = JSON.stringifyf(data, null, 2);
         }
     </script>
 </body>

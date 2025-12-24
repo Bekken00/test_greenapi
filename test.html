@@ -121,16 +121,17 @@
         async function SendFileByUrl() {
             const phoneNumber = document.getElementById("phoneNumberFile");
             const urlFile = document.getElementById("urlFile");
-            const res = await fetch(`${mediaUrl}/waInstance${idInstance.value}/sendFileByUrl/${apiTokenInstance.value}`, {
+            const res = await fetch(`${apiUrl}/waInstance${idInstance.value}/sendFileByUrl/${apiTokenInstance.value}`, {
                 method: "POST",
                 body: JSON.stringify({
                     chatId: `${phoneNumber.value}@c.us`,
-                    urlFile: urlFile.value
+                    urlFile: urlFile.value, 
+                    fileName: "test.jpeg"
                 })
             });
             const data = await res.json();
 
-            document.getElementById("answer").textContent = JSON.stringifyf(data, null, 2);
+            document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
         }
     </script>
 </body>

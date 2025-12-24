@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        main {
+            margin-inline: 20%;
+            display: flex;
+        }
+
+        .interactive-container {
+            width: 50%;
+            padding: 10px;
+        }
+
+        .answer-container {
+            width: 50%;
+        }
+
+        .answer {
+            border: 1px solid black;
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            height: 80vh;
+        }
+
+        input {
+            width: 90%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 90%;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="interactive-container">
+
+            <input type="text" name="idInstance" id="idInstance"  placeholder="idInstance">
+            <input type="text" name="apiTokenInstance" id="apiTokenInstance" placeholder="apiTokenInstance">
+            <button type="button" onclick="GetSettings()">
+                GetSettings
+            </button>
+            <button type="button" onclick="GetStateInstance()">
+                GetStateInstance
+            </button>
+            
+
+        </div>
+        <div class="answer-container">
+            <h3>Ответ:</h3>
+            <pre class="answer" name="answer" id="answer"></pre>
+        </div>
+    </main>
+
+    <script>
+        const apiUrl = "https://7105.api.greenapi.com";
+        const idInstance = document.getElementById("idInstance");
+        const apiTokenInstance = document.getElementById("apiTokenInstance");
+
+        async function GetSettings() {
+            const url = `${apiUrl}/waInstance${idInstance.value}/getSettings/${apiTokenInstance.value}`;
+            const res = await fetch(url);
+            const data = await res.json()
+
+            document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
+        }
+
+        async function GetStateInstance() {
+            const url = `${apiUrl}/waInstance${idInstance.value}/getStateInstance/${apiTokenInstance.value}`;
+            const res = await fetch(url);
+            const data = await res.json()
+
+            document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>

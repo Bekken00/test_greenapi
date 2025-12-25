@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GreenAPI test site</title>
     <style>
         * {
             box-sizing: border-box;
@@ -39,7 +39,7 @@
 
         button {
             width: 90%;
-            padding: 5px;
+            padding: 12px;
             margin-top: 10px;
         }
 
@@ -53,24 +53,24 @@
         <div class="interactive-container">
 
             <input type="text" name="idInstance" id="idInstance"  placeholder="idInstance">
-            <input type="text" name="apiTokenInstance" id="apiTokenInstance" placeholder="apiTokenInstance">
-            <button type="button" onclick="GetSettings()">
-                GetSettings
+            <input type="text" name="apiTokenInstance" id="apiTokenInstance" placeholder="ApiTokenInstance">
+            <button type="button" onclick="getSettings()">
+                getSettings
             </button>
-            <button type="button" onclick="GetStateInstance()">
-                GetStateInstance
+            <button type="button" onclick="getStateInstance()">
+                getStateInstance
             </button><br><br><br><br>
 
             <input type="text" name="phoneNumberMessage" id="phoneNumberMessage" placeholder="phoneNumber">
             <input type="text" name="message" id="message" placeholder="message">
-            <button type="button" onclick="SendMessage()">
-                SendMessage
+            <button type="button" onclick="sendMessage()">
+                sendMessage
             </button><br><br><br><br>
 
             <input type="text" name="phoneNumberFile" id="phoneNumberFile" placeholder="phoneNumber">
             <input type="text" name="urlFile" id="urlFile" placeholder="urlFile">
-            <button type="button" onclick="SendFileByUrl()">
-                SendFileByUrl
+            <button type="button" onclick="sendFileByUrl()">
+                sendFileByUrl
             </button>
 
         </div>
@@ -86,7 +86,7 @@
         const idInstance = document.getElementById("idInstance");
         const apiTokenInstance = document.getElementById("apiTokenInstance");
 
-        async function GetSettings() {
+        async function getSettings() {
             const url = `${apiUrl}/waInstance${idInstance.value}/getSettings/${apiTokenInstance.value}`;
             const res = await fetch(url);
             const data = await res.json();
@@ -94,7 +94,7 @@
             document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
         }
 
-        async function GetStateInstance() {
+        async function getStateInstance() {
             const url = `${apiUrl}/waInstance${idInstance.value}/getStateInstance/${apiTokenInstance.value}`;
             const res = await fetch(url);
             const data = await res.json();
@@ -102,7 +102,7 @@
             document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
         }
 
-        async function SendMessage() {
+        async function sendMessage() {
             const phoneNumber = document.getElementById("phoneNumberMessage");
             const message = document.getElementById("message");
 
@@ -118,7 +118,7 @@
             document.getElementById("answer").textContent = JSON.stringify(data, null, 2);
         }
 
-        async function SendFileByUrl() {
+        async function sendFileByUrl() {
             const phoneNumber = document.getElementById("phoneNumberFile");
             const urlFile = document.getElementById("urlFile");
             const res = await fetch(`${apiUrl}/waInstance${idInstance.value}/sendFileByUrl/${apiTokenInstance.value}`, {
